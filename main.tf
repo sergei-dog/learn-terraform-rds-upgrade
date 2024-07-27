@@ -63,11 +63,15 @@ resource "aws_security_group" "rds" {
 
 resource "aws_db_parameter_group" "education" {
   name_prefix = "${random_pet.name.id}-education"
-  family      = "postgres15"
+  family      = "postgres16"
 
   parameter {
     name  = "log_connections"
     value = "1"
+  }
+
+  lifecycle {
+    create_before_destroy = true
   }
 
 }
@@ -78,7 +82,7 @@ resource "aws_db_instance" "education" {
   allocated_storage           = 10
   apply_immediately           = true
   engine                      = "postgres"
-  engine_version              = "15"
+  engine_version              = "16"
   username                    = "edu"
   password                    = var.db_password
   allow_major_version_upgrade = true
